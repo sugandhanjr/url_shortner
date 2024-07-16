@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 
 from .extensions import db
 from .models import Link
@@ -7,7 +7,7 @@ short = Blueprint('short', __name__)
 
 @short.route('/<short_url>')
 def redirect_to_url(short_url):
-    pass 
+    return render_template('index.html')
 
 @short.route('/')
 def index():
@@ -18,7 +18,7 @@ def add_link():
     original_url = request.form['original_url']
     link = Link(original_url=original_url)
     db.session.add(link)
-    db.session.comit()
+    db.session.commit()
 
     return render_template('link_added.html',  new_link=link.short_url, original_url=original_url )
 
